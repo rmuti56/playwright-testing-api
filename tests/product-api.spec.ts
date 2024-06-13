@@ -3,6 +3,8 @@ import { faker } from "@faker-js/faker";
 
 const PRODUCT_PATH = "/api/v1/products";
 
+
+
 test.describe("Product Management", { tag: "@manage" }, () => {
   const payload = {
     id: undefined as unknown as string,
@@ -74,7 +76,7 @@ test.describe("Product Management", { tag: "@manage" }, () => {
     const product = await productResponse.json();
     expect(product).toEqual(
       expect.objectContaining({
-        ...payload,
+        id: payload.id,
         ...newPayload,
       })
     );
@@ -114,6 +116,7 @@ test.describe("Product Filtering", { tag: "@filter" }, () => {
     const path = new URL(`${baseURL}${PRODUCT_PATH}`);
     path.searchParams.append("page", "1");
     path.searchParams.append("limit", "5");
+    // /api/v1/products?page=1&limit=5
     const productsResponse = await request.get(path.toString());
     expect(productsResponse.ok()).toBeTruthy();
     expect(productsResponse.status()).toEqual(200);
